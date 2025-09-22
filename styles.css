@@ -1,180 +1,612 @@
-/* Usamos variables CSS para una fácil personalización y mantenimiento */
+/* ===============================================
+   🌹 ROSA AMARILLA REALISTA - COMO EN LA IMAGEN
+   Creada con amor para una persona muy especial
+   =============================================== */
+
+/* Variables CSS para rosa natural */
 :root {
-    --bg-color: #87ceeb;
-    /* Un azul cielo más suave */
-    --petal-color-start: #ffeb3b;
-    /* Amarillo brillante */
-    --petal-color-end: #f9a825;
-    /* Amarillo-naranja más intenso para sombras */
-    --petal-highlight: #fffde7;
-    /* Un amarillo muy pálido para los reflejos */
-    --center-color-start: #5d4037;
-    /* Marrón oscuro */
-    --center-color-end: #a1887f;
-    /* Marrón pálido */
+    /* Colores primaverales */
+    --spring-sky: linear-gradient(135deg, #87CEEB 0%, #98D8E8 25%, #F0E68C 50%, #87CEEB 100%);
+    --sunshine: radial-gradient(circle at 30% 30%, rgba(255, 235, 59, 0.3), transparent 70%);
 
-    --petal-count: 8;
-    /* Número de pétalos para cálculos */
+    /* Colores naturales de rosa amarilla */
+    --yellow-outer: linear-gradient(135deg, #FFF8DC 0%, #FFD700 25%, #FFA500 75%, #FF8C00 100%);
+    --yellow-middle: linear-gradient(135deg, #FFFACD 0%, #FFEB3B 30%, #FFD54F 70%, #FFA000 100%);
+    --yellow-inner: linear-gradient(135deg, #FFFFF0 0%, #FFFF8D 40%, #FFEB3B 80%, #FFB300 100%);
+    --center-color: linear-gradient(135deg, #FF6B35 0%, #D2001C 50%, #FFAB00 100%);
+
+    /* Sombras suaves */
+    --petal-shadow: rgba(255, 140, 0, 0.3);
+    --soft-highlight: radial-gradient(ellipse at 30% 30%, rgba(255, 255, 255, 0.6), transparent 60%);
+
+    /* Tallo y hojas */
+    --stem-gradient: linear-gradient(180deg, #689F38 0%, #558B2F  50%, #33691E 100%);
+    --leaf-gradient: linear-gradient(135deg, #81C784 0%, #66BB6A 30%, #4CAF50 70%, #388E3C 100%);
+    --leaf-vein: #2E7D32;
+
+    /* Polen */
+    --pollen-color: #FFF176;
+
+    /* Animaciones */
     --bloom-duration: 6s;
-    /* Duración más lenta y natural */
-    --stagger-delay: 0.08s;
-    /* Retraso sutil entre pétalos */
-    --sway-duration: 7s;
+    --sway-duration: 8s;
+    --gentle-breeze: 5s;
 }
 
-/* Estilos base para centrar la flor en la página */
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: var(--bg-color);
+/* Reset y estilos base */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--spring-sky);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
     overflow: hidden;
-    /* Evita barras de scroll innecesarias */
-}
-
-/* Contenedor principal de la flor */
-.flower {
+    font-family: 'Poppins', sans-serif;
     position: relative;
-    width: 250px;
-    height: 250px;
-    transform-origin: bottom center;
-    /* Esencial para las animaciones de escala y rotación */
-    /* Múltiples animaciones: 1. Crecer al inicio. 2. Balanceo infinito después de crecer. */
-    animation: grow-in 1.5s cubic-bezier(0.25, 1, 0.5, 1), sway var(--sway-duration) 1.5s ease-in-out infinite alternate;
+    padding-bottom: 0;
 }
 
-/* Centro de la flor */
-.flower__center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    z-index: 10;
-    background: var(--center-color-start);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    /* Sombra más pronunciada */
-    /* TÉCNICA PICTÓRICA: Textura granulada para el polen usando múltiples gradientes */
-    background-image:
-        radial-gradient(circle at 30% 30%, var(--center-color-end) 1px, transparent 2px),
-        radial-gradient(circle at 70% 60%, var(--center-color-end) 1px, transparent 2px),
-        radial-gradient(circle at 50% 80%, var(--center-color-end) 1px, transparent 2px),
-        radial-gradient(circle at 20% 80%, var(--center-color-end) 1px, transparent 2px),
-        radial-gradient(circle at 80% 20%, var(--center-color-end) 1px, transparent 2px),
-        radial-gradient(circle, var(--center-color-start), var(--center-color-end));
-    background-size: 10px 10px, 15px 15px, 8px 8px, 12px 12px, 9px 9px, 100% 100%;
-}
-
-/* Estilo base para todos los pétalos */
-.flower__petal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 80px;
-    height: 130px;
-    /* Ligeramente más largos */
-    margin-top: -65px;
-    /* Mitad de la altura */
-    margin-left: -40px;
-    /* Mitad del ancho */
-    background: linear-gradient(to top, var(--petal-color-end), var(--petal-color-start));
-
-    /* TÉCNICA PROFESIONAL: Forma orgánica del pétalo usando clip-path */
-    clip-path: polygon(50% 100%, 0 70%, 15% 20%, 50% 0, 85% 20%, 100% 70%);
-
-    transform-origin: bottom center;
-
-    /* Cálculo dinámico de rotación y retraso */
-    --rotation: calc((var(--n) - 1) * (360deg / var(--petal-count)));
-    transform: rotate(var(--rotation)) translateY(-60px);
-
-    /* Múltiples animaciones para un movimiento más complejo y natural */
-    animation:
-        bloom var(--bloom-duration) ease-in-out infinite alternate,
-        tremble 0.4s ease-in-out infinite alternate;
-    animation-delay: calc(var(--n) * var(--stagger-delay));
-}
-
-/* TÉCNICA PICTÓRICA: Añadimos un reflejo de luz suave a cada pétalo */
-.flower__petal::before {
-    content: "";
-    position: absolute;
+/* ===============================================
+   🌬️ PARTÍCULAS DE POLEN FLOTANTES
+   =============================================== */
+.pollen-particles {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 50% 30%, var(--petal-highlight), transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.pollen {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: var(--pollen-color);
+    border-radius: 50%;
     opacity: 0.6;
+    box-shadow: 0 0 4px var(--pollen-color);
+    animation: float-pollen var(--duration) infinite ease-in-out;
+    animation-delay: var(--delay);
+    left: var(--x);
+    top: -10px;
+}
+
+@keyframes float-pollen {
+    0% {
+        transform: translateY(-10px) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.6;
+    }
+    90% {
+        opacity: 0.2;
+    }
+    100% {
+        transform: translateY(110vh) translateX(20px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* ===============================================
+   🌱 CONTENEDOR DE LA PLANTA
+   =============================================== */
+.plant-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 5;
+    animation: plant-grow 3s ease-out;
+    height: 100vh;
+    justify-content: flex-end;
+    padding-bottom: 80px;
+}
+
+@keyframes plant-grow {
+    0% {
+        transform: translateY(100px) scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: translateY(50px) scale(0.8);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* ===============================================
+   🌿 TALLO CON HOJAS
+   =============================================== */
+.stem {
+    width: 18px;
+    height: 420px;
+    background: var(--stem-gradient);
+    border-radius: 9px;
+    position: relative;
+    box-shadow:
+        inset -4px 0 8px rgba(0, 0, 0, 0.4),
+        4px 0 12px rgba(0, 0, 0, 0.2);
+    animation: stem-sway var(--sway-duration) ease-in-out infinite alternate;
+    transform-origin: bottom center;
+    order: 2;
+}
+
+@keyframes stem-sway {
+    0% { transform: rotate(-1.5deg); }
+    100% { transform: rotate(1.5deg); }
+}
+
+/* Hojas del tallo */
+.leaf {
+    position: absolute;
+    width: 45px;
+    height: 30px;
+    background: var(--leaf-gradient);
+    border-radius: 0 100% 0 100%;
+    top: var(--leaf-position);
+    transform-origin: right center;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+    animation: leaf-flutter var(--gentle-breeze) ease-in-out infinite alternate;
+    z-index: 3;
+}
+
+.leaf::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: var(--leaf-vein);
+    transform: translateY(-50%);
+}
+
+.leaf--left {
+    left: -45px;
+    transform: rotate(-30deg);
+    animation-delay: 0s;
+}
+
+.leaf--right {
+    right: -45px;
+    transform: rotate(30deg) scaleX(-1);
+    animation-delay: 0.5s;
+}
+
+@keyframes leaf-flutter {
+    0% { transform: rotate(-30deg) scale(1); }
+    100% { transform: rotate(-25deg) scale(1.05); }
+}
+
+.leaf--right {
+    animation-name: leaf-flutter-right;
+}
+
+@keyframes leaf-flutter-right {
+    0% { transform: rotate(30deg) scaleX(-1) scale(1); }
+    100% { transform: rotate(25deg) scaleX(-1) scale(1.05); }
+}
+
+/* ===============================================
+   🌹 ROSA NATURAL REALISTA
+   =============================================== */
+.natural-rose {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    transform-origin: center center;
+    animation:
+        rose-bloom 4s ease-out 1s both,
+        rose-breathing var(--bloom-duration) ease-in-out 5s infinite alternate;
+    z-index: 10;
+    order: 1;
+    margin-bottom: -40px;
+}
+
+@keyframes rose-bloom {
+    0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(0.8) rotate(-90deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes rose-breathing {
+    0% { transform: scale(1) rotate(-0.5deg); }
+    100% { transform: scale(1.03) rotate(0.5deg); }
+}
+
+/* ===============================================
+   🌸 CAPAS DE PÉTALOS NATURALES
+   =============================================== */
+
+/* Capas de la rosa */
+.rose-layer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.rose-layer--outer {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.rose-layer--middle {
+    width: 75%;
+    height: 75%;
+    z-index: 2;
+}
+
+.rose-layer--inner {
+    width: 50%;
+    height: 50%;
+    z-index: 3;
+}
+
+/* Pétalos naturales */
+.rose-petal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: bottom center;
+    border-radius: 60% 40% 60% 40%;
+    filter: drop-shadow(2px 4px 8px var(--petal-shadow));
+    animation: petal-unfold 3s ease-out calc(1s + var(--n) * 0.1s) both;
+}
+
+/* Pétalos exteriores - más grandes y abiertos */
+.rose-petal--outer {
+    width: 110px;
+    height: 140px;
+    margin-top: -70px;
+    margin-left: -55px;
+    background: var(--yellow-outer);
+    --rotation: calc((var(--n) - 1) * (360deg / 8));
+    transform: rotate(var(--rotation)) translateY(-60px) rotateX(15deg);
+    z-index: 1;
+}
+
+/* Pétalos medios */
+.rose-petal--middle {
+    width: 85px;
+    height: 110px;
+    margin-top: -55px;
+    margin-left: -42px;
+    background: var(--yellow-middle);
+    --rotation: calc((var(--n) - 1) * (360deg / 6) + 30deg);
+    transform: rotate(var(--rotation)) translateY(-45px) rotateX(10deg);
+    z-index: 2;
+}
+
+/* Pétalos interiores */
+.rose-petal--inner {
+    width: 65px;
+    height: 85px;
+    margin-top: -42px;
+    margin-left: -32px;
+    background: var(--yellow-inner);
+    --rotation: calc((var(--n) - 1) * (360deg / 4) + 45deg);
+    transform: rotate(var(--rotation)) translateY(-30px) rotateX(5deg);
+    z-index: 3;
+}
+
+/* Efectos de luz en pétalos */
+.rose-petal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--soft-highlight);
+    border-radius: inherit;
     mix-blend-mode: soft-light;
-    /* Clave para un efecto de luz suave y pintado */
-    filter: blur(2px);
-    /* Desenfoque para suavizar el reflejo */
+    opacity: 0.8;
 }
 
-/* Animación de respiración ligeramente diferente para pétalos pares e impares */
-.flower__petal:nth-child(odd) {
-    animation-name: bloom-odd, tremble;
+/* Venas sutiles en pétalos */
+.rose-petal::after {
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    width: 1px;
+    height: 70%;
+    background: linear-gradient(to bottom, transparent, rgba(255, 140, 0, 0.2), transparent);
+    transform: translateX(-50%);
 }
 
-
-/* --- DEFINICIÓN DE LAS ANIMACIONES --- */
-
-/* Animación para que la flor crezca al cargar la página */
-@keyframes grow-in {
-    from {
-        transform: scale(0) rotate(-25deg);
+@keyframes petal-unfold {
+    0% {
+        transform: rotate(var(--rotation)) translateY(-20px) scale(0.3) rotateX(0deg);
+        opacity: 0;
     }
-
-    to {
-        transform: scale(1) rotate(calc(var(--sway-duration) / -2));
-        /* Inicia en la posición de sway */
+    50% {
+        transform: rotate(var(--rotation)) translateY(-40px) scale(0.8) rotateX(8deg);
+        opacity: 0.8;
     }
-}
-
-/* Animación de balanceo para toda la flor */
-@keyframes sway {
-    from {
-        transform: rotate(-5deg);
-    }
-
-    to {
-        transform: rotate(5deg);
+    100% {
+        transform: rotate(var(--rotation)) translateY(-60px) scale(1) rotateX(15deg);
+        opacity: 1;
     }
 }
 
-/* Animación de "respiración" para pétalos pares */
-@keyframes bloom {
-    from {
-        transform: rotate(var(--rotation)) translateY(-65px) scale(1);
-    }
+.rose-petal--middle {
+    animation-name: petal-unfold-middle;
+}
 
-    to {
-        transform: rotate(var(--rotation)) translateY(-65px) scale(1.06) skewX(-2deg);
+@keyframes petal-unfold-middle {
+    0% {
+        transform: rotate(var(--rotation)) translateY(-15px) scale(0.3) rotateX(0deg);
+        opacity: 0;
+    }
+    50% {
+        transform: rotate(var(--rotation)) translateY(-30px) scale(0.8) rotateX(5deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: rotate(var(--rotation)) translateY(-45px) scale(1) rotateX(10deg);
+        opacity: 1;
     }
 }
 
-/* Animación de "respiración" para pétalos impares (ligeramente diferente) */
-@keyframes bloom-odd {
-    from {
-        transform: rotate(var(--rotation)) translateY(-65px) scale(1);
-    }
+.rose-petal--inner {
+    animation-name: petal-unfold-inner;
+}
 
-    to {
-        transform: rotate(var(--rotation)) translateY(-65px) scale(1.04) skewX(2deg);
+@keyframes petal-unfold-inner {
+    0% {
+        transform: rotate(var(--rotation)) translateY(-10px) scale(0.3) rotateX(0deg);
+        opacity: 0;
+    }
+    50% {
+        transform: rotate(var(--rotation)) translateY(-20px) scale(0.8) rotateX(3deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: rotate(var(--rotation)) translateY(-30px) scale(1) rotateX(5deg);
+        opacity: 1;
     }
 }
 
-/* Animación de temblor sutil para un efecto de brisa más realista */
-@keyframes tremble {
-    from {
-        transform-origin: bottom center;
+/* ===============================================
+   🌺 CENTRO NATURAL DE LA ROSA
+   =============================================== */
+.rose-center-natural {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: var(--center-color);
+    z-index: 10;
+    box-shadow:
+        0 0 25px rgba(255, 107, 53, 0.6),
+        inset 0 -10px 18px rgba(210, 0, 28, 0.4),
+        inset 0 10px 18px rgba(255, 255, 255, 0.3);
+    animation: center-pulse 4s ease-in-out 3s infinite alternate;
+}
+
+.stamens {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.8) 1px, transparent 2px),
+        radial-gradient(circle at 70% 40%, rgba(255, 215, 0, 0.6) 1px, transparent 2px),
+        radial-gradient(circle at 50% 70%, rgba(255, 215, 0, 0.7) 1px, transparent 2px),
+        radial-gradient(circle at 20% 60%, rgba(255, 215, 0, 0.5) 1px, transparent 2px),
+        radial-gradient(circle at 80% 25%, rgba(255, 215, 0, 0.6) 1px, transparent 2px);
+    background-size: 8px 8px, 12px 12px, 6px 6px, 10px 10px, 7px 7px;
+    opacity: 0.9;
+    animation: stamens-shimmer 3s ease-in-out infinite alternate;
+}
+
+@keyframes center-pulse {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    100% { transform: translate(-50%, -50%) scale(1.1); }
+}
+
+@keyframes stamens-shimmer {
+    0% { opacity: 0.9; }
+    100% { opacity: 1; }
+}
+
+/* ===============================================
+   💌 MENSAJE ESPECIAL
+   =============================================== */
+.message-container {
+    position: fixed;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    animation: message-appear 2s ease-out 6s both;
+}
+
+@keyframes message-appear {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+.message {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px 40px;
+    text-align: center;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    animation: message-glow 4s ease-in-out infinite alternate;
+}
+
+@keyframes message-glow {
+    0% {
+        box-shadow:
+            0 10px 30px rgba(0, 0, 0, 0.1),
+            0 0 20px rgba(255, 215, 0, 0.2);
+    }
+    100% {
+        box-shadow:
+            0 15px 40px rgba(0, 0, 0, 0.15),
+            0 0 30px rgba(255, 215, 0, 0.4);
+    }
+}
+
+.message__title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #FF8F00;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.message__text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #2E7D32;
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+.message__signature {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.4rem;
+    color: #FFD700;
+    font-weight: 600;
+}
+
+/* ===============================================
+   ☀️ EFECTO DE LUZ SOLAR
+   =============================================== */
+.sunlight {
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: var(--sunshine);
+    pointer-events: none;
+    z-index: 2;
+    animation: sunlight-move 20s linear infinite;
+}
+
+@keyframes sunlight-move {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ===============================================
+   📱 RESPONSIVE DESIGN
+   =============================================== */
+@media (max-width: 768px) {
+    .natural-rose {
+        width: 280px;
+        height: 280px;
     }
 
-    to {
-        transform-origin: bottom center;
+    .rose-petal--outer {
+        width: 90px;
+        height: 115px;
+        margin-top: -57px;
+        margin-left: -45px;
+    }
+
+    .rose-petal--middle {
+        width: 70px;
+        height: 90px;
+        margin-top: -45px;
+        margin-left: -35px;
+    }
+
+    .rose-petal--inner {
+        width: 55px;
+        height: 70px;
+        margin-top: -35px;
+        margin-left: -27px;
+    }
+
+    .rose-center-natural {
+        width: 50px;
+        height: 50px;
+    }
+
+    .stem {
+        height: 300px;
+    }
+
+    .message {
+        padding: 20px 25px;
+        margin: 0 20px;
+    }
+
+    .message__title {
+        font-size: 2rem;
+    }
+
+    .message__text {
+        font-size: 1rem;
+    }
+}
+
+/* ===============================================
+   ♿ ACCESIBILIDAD
+   =============================================== */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Mejora para lectores de pantalla */
+.pollen-particles,
+.sunlight {
+    opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pollen-particles,
+    .sunlight {
+        display: none;
     }
 }

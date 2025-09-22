@@ -4,23 +4,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flor Animada con CSS</title>
+    <title>Flor Especial para el Día de la Primavera 🌻</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
-
-    <div class="flower">
-        <div class="flower__center"></div>
-        <div class="flower__petal" style="--n: 1;"></div>
-        <div class="flower__petal" style="--n: 2;"></div>
-        <div class="flower__petal" style="--n: 3;"></div>
-        <div class="flower__petal" style="--n: 4;"></div>
-        <div class="flower__petal" style="--n: 5;"></div>
-        <div class="flower__petal" style="--n: 6;"></div>
-        <div class="flower__petal" style="--n: 7;"></div>
-        <div class="flower__petal" style="--n: 8;"></div>
+    <!-- Partículas de polen flotantes -->
+    <div class="pollen-particles">
+        <div class="pollen" style="--delay: 0s; --x: 20%; --duration: 8s;"></div>
+        <div class="pollen" style="--delay: 1s; --x: 80%; --duration: 12s;"></div>
+        <div class="pollen" style="--delay: 2s; --x: 60%; --duration: 10s;"></div>
+        <div class="pollen" style="--delay: 3s; --x: 30%; --duration: 9s;"></div>
+        <div class="pollen" style="--delay: 4s; --x: 70%; --duration: 11s;"></div>
+        <div class="pollen" style="--delay: 5s; --x: 45%; --duration: 13s;"></div>
     </div>
+
+    <!-- Contenedor principal de la planta -->
+    <div class="plant-container">
+        <!-- Tallo con hojas -->
+        <div class="stem">
+            <div class="leaf leaf--left" style="--leaf-position: 30%;"></div>
+            <div class="leaf leaf--right" style="--leaf-position: 60%;"></div>
+            <div class="leaf leaf--left" style="--leaf-position: 80%;"></div>
+        </div>
+
+        <!-- Rosa Real Amarilla -->
+        <div class="natural-rose">
+            <!-- Capa exterior - 8 pétalos grandes -->
+            <div class="rose-layer rose-layer--outer">
+                <div class="rose-petal rose-petal--outer" style="--n: 1;"></div>
+                <div class="rose-petal rose-petal--outer" style="--n: 2;"></div>
+                <div class="rose-petal rose-petal--outer" style="--n: 3;"></div>
+                <div class="rose-petal rose-petal--outer" style="--n: 4;"></div>
+                <div class="rose-petal rose-petal--outer" style="--n: 5;"></div>
+                <div class="rose-petal rose-petal--outer" style="--n: 6;"></div>
+                <div class="rose-petal rose-petal--outer" style="--n: 7;"></div>
+                <div class="rose-petal rose-petal--outer" style="--n: 8;"></div>
+            </div>
+
+            <!-- Capa media - 6 pétalos medianos -->
+            <div class="rose-layer rose-layer--middle">
+                <div class="rose-petal rose-petal--middle" style="--n: 1;"></div>
+                <div class="rose-petal rose-petal--middle" style="--n: 2;"></div>
+                <div class="rose-petal rose-petal--middle" style="--n: 3;"></div>
+                <div class="rose-petal rose-petal--middle" style="--n: 4;"></div>
+                <div class="rose-petal rose-petal--middle" style="--n: 5;"></div>
+                <div class="rose-petal rose-petal--middle" style="--n: 6;"></div>
+            </div>
+
+            <!-- Capa interior - 4 pétalos pequeños -->
+            <div class="rose-layer rose-layer--inner">
+                <div class="rose-petal rose-petal--inner" style="--n: 1;"></div>
+                <div class="rose-petal rose-petal--inner" style="--n: 2;"></div>
+                <div class="rose-petal rose-petal--inner" style="--n: 3;"></div>
+                <div class="rose-petal rose-petal--inner" style="--n: 4;"></div>
+            </div>
+
+            <!-- Centro natural -->
+            <div class="rose-center-natural">
+                <div class="stamens"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mensaje especial -->
+    <div class="message-container">
+        <div class="message">
+            <h1 class="message__title">Para ti 💛</h1>
+            <p class="message__text">
+                En este día de primavera,<br>
+                esta flor amarilla representa<br>
+                la luz que traes a mi vida
+            </p>
+            <div class="message__signature">Con amor ✨</div>
+        </div>
+    </div>
+
+    <!-- Efecto de luz solar -->
+    <div class="sunlight"></div>
 
 </body>
 
