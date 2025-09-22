@@ -1,0 +1,180 @@
+/* Usamos variables CSS para una fácil personalización y mantenimiento */
+:root {
+    --bg-color: #87ceeb;
+    /* Un azul cielo más suave */
+    --petal-color-start: #ffeb3b;
+    /* Amarillo brillante */
+    --petal-color-end: #f9a825;
+    /* Amarillo-naranja más intenso para sombras */
+    --petal-highlight: #fffde7;
+    /* Un amarillo muy pálido para los reflejos */
+    --center-color-start: #5d4037;
+    /* Marrón oscuro */
+    --center-color-end: #a1887f;
+    /* Marrón pálido */
+
+    --petal-count: 8;
+    /* Número de pétalos para cálculos */
+    --bloom-duration: 6s;
+    /* Duración más lenta y natural */
+    --stagger-delay: 0.08s;
+    /* Retraso sutil entre pétalos */
+    --sway-duration: 7s;
+}
+
+/* Estilos base para centrar la flor en la página */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--bg-color);
+    margin: 0;
+    overflow: hidden;
+    /* Evita barras de scroll innecesarias */
+}
+
+/* Contenedor principal de la flor */
+.flower {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    transform-origin: bottom center;
+    /* Esencial para las animaciones de escala y rotación */
+    /* Múltiples animaciones: 1. Crecer al inicio. 2. Balanceo infinito después de crecer. */
+    animation: grow-in 1.5s cubic-bezier(0.25, 1, 0.5, 1), sway var(--sway-duration) 1.5s ease-in-out infinite alternate;
+}
+
+/* Centro de la flor */
+.flower__center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    z-index: 10;
+    background: var(--center-color-start);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    /* Sombra más pronunciada */
+    /* TÉCNICA PICTÓRICA: Textura granulada para el polen usando múltiples gradientes */
+    background-image:
+        radial-gradient(circle at 30% 30%, var(--center-color-end) 1px, transparent 2px),
+        radial-gradient(circle at 70% 60%, var(--center-color-end) 1px, transparent 2px),
+        radial-gradient(circle at 50% 80%, var(--center-color-end) 1px, transparent 2px),
+        radial-gradient(circle at 20% 80%, var(--center-color-end) 1px, transparent 2px),
+        radial-gradient(circle at 80% 20%, var(--center-color-end) 1px, transparent 2px),
+        radial-gradient(circle, var(--center-color-start), var(--center-color-end));
+    background-size: 10px 10px, 15px 15px, 8px 8px, 12px 12px, 9px 9px, 100% 100%;
+}
+
+/* Estilo base para todos los pétalos */
+.flower__petal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: 130px;
+    /* Ligeramente más largos */
+    margin-top: -65px;
+    /* Mitad de la altura */
+    margin-left: -40px;
+    /* Mitad del ancho */
+    background: linear-gradient(to top, var(--petal-color-end), var(--petal-color-start));
+
+    /* TÉCNICA PROFESIONAL: Forma orgánica del pétalo usando clip-path */
+    clip-path: polygon(50% 100%, 0 70%, 15% 20%, 50% 0, 85% 20%, 100% 70%);
+
+    transform-origin: bottom center;
+
+    /* Cálculo dinámico de rotación y retraso */
+    --rotation: calc((var(--n) - 1) * (360deg / var(--petal-count)));
+    transform: rotate(var(--rotation)) translateY(-60px);
+
+    /* Múltiples animaciones para un movimiento más complejo y natural */
+    animation:
+        bloom var(--bloom-duration) ease-in-out infinite alternate,
+        tremble 0.4s ease-in-out infinite alternate;
+    animation-delay: calc(var(--n) * var(--stagger-delay));
+}
+
+/* TÉCNICA PICTÓRICA: Añadimos un reflejo de luz suave a cada pétalo */
+.flower__petal::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 30%, var(--petal-highlight), transparent 70%);
+    opacity: 0.6;
+    mix-blend-mode: soft-light;
+    /* Clave para un efecto de luz suave y pintado */
+    filter: blur(2px);
+    /* Desenfoque para suavizar el reflejo */
+}
+
+/* Animación de respiración ligeramente diferente para pétalos pares e impares */
+.flower__petal:nth-child(odd) {
+    animation-name: bloom-odd, tremble;
+}
+
+
+/* --- DEFINICIÓN DE LAS ANIMACIONES --- */
+
+/* Animación para que la flor crezca al cargar la página */
+@keyframes grow-in {
+    from {
+        transform: scale(0) rotate(-25deg);
+    }
+
+    to {
+        transform: scale(1) rotate(calc(var(--sway-duration) / -2));
+        /* Inicia en la posición de sway */
+    }
+}
+
+/* Animación de balanceo para toda la flor */
+@keyframes sway {
+    from {
+        transform: rotate(-5deg);
+    }
+
+    to {
+        transform: rotate(5deg);
+    }
+}
+
+/* Animación de "respiración" para pétalos pares */
+@keyframes bloom {
+    from {
+        transform: rotate(var(--rotation)) translateY(-65px) scale(1);
+    }
+
+    to {
+        transform: rotate(var(--rotation)) translateY(-65px) scale(1.06) skewX(-2deg);
+    }
+}
+
+/* Animación de "respiración" para pétalos impares (ligeramente diferente) */
+@keyframes bloom-odd {
+    from {
+        transform: rotate(var(--rotation)) translateY(-65px) scale(1);
+    }
+
+    to {
+        transform: rotate(var(--rotation)) translateY(-65px) scale(1.04) skewX(2deg);
+    }
+}
+
+/* Animación de temblor sutil para un efecto de brisa más realista */
+@keyframes tremble {
+    from {
+        transform-origin: bottom center;
+    }
+
+    to {
+        transform-origin: bottom center;
+    }
+}
