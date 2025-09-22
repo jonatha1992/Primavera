@@ -454,29 +454,64 @@ body {
     bottom: 0;
     border-radius: 50%;
     background:
-        /* Patrón de semillas de girasol en espiral */
-        radial-gradient(circle at 50% 50%, rgba(40, 30, 20, 0.9) 2px, transparent 2.5px),
-        radial-gradient(circle at 35% 45%, rgba(25, 20, 15, 0.8) 1.8px, transparent 2.2px),
-        radial-gradient(circle at 65% 55%, rgba(30, 25, 20, 0.8) 1.8px, transparent 2.2px),
-        radial-gradient(circle at 50% 35%, rgba(35, 30, 25, 0.7) 1.5px, transparent 2px),
-        radial-gradient(circle at 25% 55%, rgba(20, 15, 10, 0.7) 1.5px, transparent 2px),
-        radial-gradient(circle at 75% 45%, rgba(25, 20, 15, 0.7) 1.5px, transparent 2px),
-        radial-gradient(circle at 40% 65%, rgba(30, 25, 20, 0.6) 1.3px, transparent 1.8px),
-        radial-gradient(circle at 60% 35%, rgba(35, 30, 25, 0.6) 1.3px, transparent 1.8px),
-        radial-gradient(circle at 30% 70%, rgba(20, 15, 10, 0.6) 1.2px, transparent 1.6px),
-        radial-gradient(circle at 70% 65%, rgba(25, 20, 15, 0.6) 1.2px, transparent 1.6px),
-        radial-gradient(circle at 45% 75%, rgba(15, 10, 5, 0.5) 1px, transparent 1.4px),
-        radial-gradient(circle at 55% 25%, rgba(20, 15, 10, 0.5) 1px, transparent 1.4px),
-        radial-gradient(circle at 20% 40%, rgba(25, 20, 15, 0.5) 1px, transparent 1.4px),
-        radial-gradient(circle at 80% 60%, rgba(30, 25, 20, 0.5) 1px, transparent 1.4px),
-        /* Fondo base marrón oscuro */
-        radial-gradient(circle at center, rgba(45, 35, 25, 0.8) 0%, rgba(30, 20, 10, 0.9) 100%);
+        /* Espiral de Fibonacci - Anillo exterior (semillas más grandes) */
+        radial-gradient(circle at 50% 15%, rgba(15, 10, 5, 0.98) 2.2px, transparent 2.8px),
+        radial-gradient(circle at 25% 20%, rgba(20, 15, 8, 0.95) 2px, transparent 2.6px),
+        radial-gradient(circle at 75% 20%, rgba(18, 13, 7, 0.95) 2px, transparent 2.6px),
+        radial-gradient(circle at 15% 35%, rgba(22, 16, 9, 0.93) 2.1px, transparent 2.7px),
+        radial-gradient(circle at 85% 35%, rgba(17, 12, 6, 0.93) 2.1px, transparent 2.7px),
+        radial-gradient(circle at 10% 55%, rgba(25, 18, 10, 0.9) 2.2px, transparent 2.8px),
+        radial-gradient(circle at 90% 55%, rgba(19, 14, 8, 0.9) 2.2px, transparent 2.8px),
+        radial-gradient(circle at 20% 75%, rgba(23, 17, 10, 0.88) 2.1px, transparent 2.7px),
+        radial-gradient(circle at 80% 75%, rgba(21, 15, 9, 0.88) 2.1px, transparent 2.7px),
+        radial-gradient(circle at 50% 90%, rgba(26, 19, 12, 0.85) 2.3px, transparent 2.9px),
+
+        /* Anillo medio - patrón más denso */
+        radial-gradient(circle at 35% 30%, rgba(12, 8, 4, 0.95) 1.7px, transparent 2.2px),
+        radial-gradient(circle at 65% 30%, rgba(14, 10, 6, 0.95) 1.7px, transparent 2.2px),
+        radial-gradient(circle at 30% 45%, rgba(16, 11, 7, 0.92) 1.8px, transparent 2.3px),
+        radial-gradient(circle at 70% 45%, rgba(13, 9, 5, 0.92) 1.8px, transparent 2.3px),
+        radial-gradient(circle at 25% 60%, rgba(18, 13, 8, 0.9) 1.9px, transparent 2.4px),
+        radial-gradient(circle at 75% 60%, rgba(15, 11, 7, 0.9) 1.9px, transparent 2.4px),
+        radial-gradient(circle at 40% 75%, rgba(20, 14, 9, 0.87) 1.8px, transparent 2.3px),
+        radial-gradient(circle at 60% 75%, rgba(17, 12, 8, 0.87) 1.8px, transparent 2.3px),
+        radial-gradient(circle at 50% 25%, rgba(19, 14, 9, 0.9) 1.6px, transparent 2.1px),
+        radial-gradient(circle at 45% 85%, rgba(22, 16, 10, 0.85) 1.9px, transparent 2.4px),
+        radial-gradient(circle at 55% 85%, rgba(16, 11, 7, 0.85) 1.9px, transparent 2.4px),
+
+        /* Centro interno - semillas muy pequeñas y densas */
+        radial-gradient(circle at 48% 45%, rgba(8, 6, 3, 0.98) 1.3px, transparent 1.7px),
+        radial-gradient(circle at 52% 45%, rgba(10, 7, 4, 0.95) 1.2px, transparent 1.6px),
+        radial-gradient(circle at 45% 50%, rgba(6, 4, 2, 0.95) 1.2px, transparent 1.6px),
+        radial-gradient(circle at 55% 50%, rgba(12, 8, 5, 0.95) 1.3px, transparent 1.7px),
+        radial-gradient(circle at 50% 40%, rgba(9, 6, 4, 0.93) 1.1px, transparent 1.5px),
+        radial-gradient(circle at 50% 55%, rgba(11, 8, 5, 0.93) 1.4px, transparent 1.8px),
+        radial-gradient(circle at 42% 52%, rgba(7, 5, 3, 0.9) 1px, transparent 1.4px),
+        radial-gradient(circle at 58% 48%, rgba(13, 9, 6, 0.9) 1.2px, transparent 1.6px),
+
+        /* Puntos de detalle ultra-finos */
+        radial-gradient(circle at 46% 46%, rgba(4, 3, 2, 0.95) 0.9px, transparent 1.2px),
+        radial-gradient(circle at 54% 54%, rgba(5, 4, 3, 0.95) 0.9px, transparent 1.2px),
+        radial-gradient(circle at 47% 53%, rgba(3, 2, 1, 0.9) 0.8px, transparent 1.1px),
+        radial-gradient(circle at 53% 47%, rgba(6, 4, 3, 0.9) 0.8px, transparent 1.1px),
+
+        /* Fondo base completamente opaco para girasol real */
+        radial-gradient(circle at center, rgba(35, 25, 15, 1) 0%, rgba(20, 15, 10, 1) 40%, rgba(15, 10, 8, 1) 80%, rgba(10, 8, 5, 1) 100%);
+
     background-size:
-        8px 8px, 7px 7px, 7px 7px, 6px 6px, 6px 6px, 6px 6px,
-        5px 5px, 5px 5px, 4px 4px, 4px 4px, 3px 3px, 3px 3px, 3px 3px, 3px 3px,
+        /* Exterior */
+        14px 14px, 12px 12px, 12px 12px, 13px 13px, 13px 13px, 14px 14px, 14px 14px, 13px 13px, 13px 13px, 15px 15px,
+        /* Medio */
+        10px 10px, 10px 10px, 11px 11px, 11px 11px, 12px 12px, 12px 12px, 11px 11px, 11px 11px, 9px 9px, 12px 12px, 12px 12px,
+        /* Centro interno */
+        7px 7px, 6px 6px, 6px 6px, 7px 7px, 5px 5px, 8px 8px, 5px 5px, 7px 7px,
+        /* Detalles */
+        4px 4px, 4px 4px, 3px 3px, 3px 3px,
+        /* Fondo */
         100% 100%;
+
     opacity: 1;
-    animation: stamens-shimmer 3s ease-in-out infinite alternate;
+    animation: sunflower-seeds-shimmer 4s ease-in-out infinite alternate;
 }
 
 @keyframes center-pulse {
@@ -489,13 +524,20 @@ body {
     }
 }
 
-@keyframes stamens-shimmer {
+@keyframes sunflower-seeds-shimmer {
     0% {
-        opacity: 0.9;
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.95;
+        transform: scale(1.02);
     }
 
     100% {
         opacity: 1;
+        transform: scale(1);
     }
 }
 
