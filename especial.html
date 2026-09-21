@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flor Especial para el Día de la Primavera 🌻</title>
+    <title>Flor Amarilla Especial para Noelia 💛 | Con amor, Jonathan</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
@@ -13,15 +13,17 @@
     <!-- Barra superior de navegación y controles -->
     <header class="top-bar">
         <div class="top-bar__left">
-            <span class="nav-btn" style="cursor: default;">🌻 Primavera 2026</span>
+            <a href="index.html" class="nav-btn" title="Ir a la versión genérica de primavera">
+                <span>←</span> Ver Genérica
+            </a>
         </div>
         <div class="top-bar__right">
             <button class="nav-btn" id="btn-music" aria-label="Reproducir música de primavera">
                 <span>🎵</span> Música
             </button>
-            <a href="especial.html" class="nav-btn" title="Ver versión especial para Noelia">
-                <span>💛</span> Especial (Noelia)
-            </a>
+            <button class="nav-btn btn-personalizar" title="Compartir esta dedicatoria">
+                <span>💌</span> Compartir
+            </button>
         </div>
     </header>
 
@@ -1108,24 +1110,24 @@
         </div>
     </div>
 
-    <!-- Mensaje Genérico de Primavera -->
+    <!-- Mensaje Especial Dedicado para Noelia -->
     <div class="message-container">
         <div class="message">
-            <span class="message__badge">21 de Septiembre 🌼</span>
-            <h1 class="message__title">¡Feliz Día de la Primavera! 🌻</h1>
-            <p class="message__text">
-                Que esta temporada florezca con alegría,<br>
-                momentos mágicos y mucha luz en tu camino.<br>
-                ¡Te comparto esta flor amarilla para alegrar tu día!
+            <span class="message__badge">Dedicatoria Especial <span class="heart-pulse">💛</span></span>
+            <h1 class="message__title" id="destinatario">Para Noelia 💛</h1>
+            <p class="message__text" id="mensaje-texto">
+                En este 21 de septiembre, te regalo esta flor amarilla<br>
+                como símbolo del amor, la alegría y la luz infinita<br>
+                que traes a mi vida cada día.
             </p>
-            <div class="message__signature">¡Bienvenida Primavera! ✨</div>
+            <div class="message__signature" id="remitente">Con todo mi amor, Jonathan ✨</div>
             <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 14px;">
-                <a href="especial.html" class="message__action-btn" style="background: linear-gradient(135deg, #FF9800 0%, #E65100 100%);">
-                    <span>💛</span> Ver Dedicatoria Especial
-                </a>
-                <button class="message__action-btn btn-personalizar" style="background: #ffffff; color: #b26505; border: 1px solid rgba(255, 193, 7, 0.6); box-shadow: 0 4px 14px rgba(0,0,0,0.06);">
-                    <span>🎁</span> Dedicar a alguien
+                <button class="message__action-btn btn-personalizar" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);">
+                    <span>💬</span> Compartir por WhatsApp
                 </button>
+                <a href="index.html" class="message__action-btn" style="background: #ffffff; color: #b26505; border: 1px solid rgba(255, 193, 7, 0.6); box-shadow: 0 4px 14px rgba(0,0,0,0.06);">
+                    <span>🌻</span> Versión Genérica
+                </a>
             </div>
         </div>
     </div>

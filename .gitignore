@@ -1,0 +1,5 @@
+# Dependencies & temp
+.playwright-mcp/
+.claude/
+.vercel/
+*.log
