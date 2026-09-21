@@ -19,9 +19,6 @@
             <button class="nav-btn" id="btn-music" aria-label="Reproducir música de primavera">
                 <span>🎵</span> Música
             </button>
-            <a href="especial.html" class="nav-btn" title="Ver versión especial para Noelia">
-                <span>💛</span> Especial (Noelia)
-            </a>
         </div>
     </header>
 
@@ -1112,17 +1109,14 @@
     <div class="message-container">
         <div class="message">
             <span class="message__badge">21 de Septiembre 🌼</span>
-            <h1 class="message__title">¡Feliz Día de la Primavera! 🌻</h1>
-            <p class="message__text">
+            <h1 class="message__title" id="destinatario">¡Feliz Día de la Primavera! 🌻</h1>
+            <p class="message__text" id="mensaje-texto">
                 Que esta temporada florezca con alegría,<br>
                 momentos mágicos y mucha luz en tu camino.<br>
                 ¡Te comparto esta flor amarilla para alegrar tu día!
             </p>
-            <div class="message__signature">¡Bienvenida Primavera! ✨</div>
+            <div class="message__signature" id="remitente">¡Bienvenida Primavera! ✨</div>
             <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 14px;">
-                <a href="especial.html" class="message__action-btn" style="background: linear-gradient(135deg, #FF9800 0%, #E65100 100%);">
-                    <span>💛</span> Ver Dedicatoria Especial
-                </a>
                 <button class="message__action-btn btn-personalizar" style="background: #ffffff; color: #b26505; border: 1px solid rgba(255, 193, 7, 0.6); box-shadow: 0 4px 14px rgba(0,0,0,0.06);">
                     <span>🎁</span> Dedicar a alguien
                 </button>
@@ -1139,20 +1133,17 @@
             </div>
             <div class="form-group">
                 <label for="input-para">¿Para quién es la flor?</label>
-                <input type="text" id="input-para" placeholder="Ej: Noelia" />
+                <input type="text" id="input-para" placeholder="Nombre de la persona" />
             </div>
             <div class="form-group">
                 <label for="input-de">¿De parte de quién?</label>
-                <input type="text" id="input-de" placeholder="Ej: Jonathan" />
+                <input type="text" id="input-de" placeholder="Tu nombre" />
             </div>
             <div class="form-group">
                 <label for="input-msg">Mensaje personalizado (opcional):</label>
                 <textarea id="input-msg" rows="3" placeholder="Escribe unas palabras bonitas..."></textarea>
             </div>
             <div class="modal-actions">
-                <button class="btn-whatsapp" id="btn-whatsapp">
-                    <span>💬</span> Enviar por WhatsApp
-                </button>
                 <button class="btn-secondary" id="btn-copy-link">
                     <span>📋</span> Copiar enlace personalizado
                 </button>

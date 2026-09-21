@@ -58,20 +58,8 @@ function initPersonalization() {
     }
 
     // Pre-cargar valores en los campos del modal si existen
-    if (inputPara) {
-        if (para) {
-            inputPara.value = para;
-        } else if (destEl && destEl.textContent.includes('Noelia')) {
-            inputPara.value = 'Noelia';
-        }
-    }
-    if (inputDe) {
-        if (de) {
-            inputDe.value = de;
-        } else if (remEl && remEl.textContent.includes('Jonathan')) {
-            inputDe.value = 'Jonathan';
-        }
-    }
+    if (inputPara && para) inputPara.value = para;
+    if (inputDe && de) inputDe.value = de;
     if (inputMsg) {
         if (msg) {
             inputMsg.value = msg;
@@ -156,24 +144,133 @@ function createSparkleBurst(x, y) {
 }
 
 /* ===============================================
-   3. MÚSICA AMBIENTAL (WEB AUDIO SINTETIZADOR)
-   Melodía dulce y primaveral sin dependencias
+   3. MÚSICA: "FLORES AMARILLAS" (FLORICIENTA)
+   Arreglo especial tipo cajita musical / celesta
    =============================================== */
 let audioCtx = null;
 let isPlaying = false;
-let musicInterval = null;
+let musicTimeout = null;
 
-const SPRING_NOTES = [
-    // Frecuencias para una melodía suave de primavera (C Major / Pentatónica brillante)
-    261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25
-];
+const NOTES = {
+    C3: 130.81, D3: 146.83, E3: 164.81, F3: 174.61, G3: 196.00, A3: 220.00, B3: 246.94,
+    C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23, Fs4: 369.99, G4: 392.00, A4: 440.00, B4: 493.88,
+    C5: 523.25, D5: 587.33, E5: 659.25, Fs5: 739.99, G5: 783.99, A5: 880.00
+};
 
-const MELODY_SEQUENCE = [
-    { note: 2, dur: 0.5 }, { note: 3, dur: 0.5 }, { note: 4, dur: 0.8 },
-    { note: 3, dur: 0.4 }, { note: 2, dur: 0.6 }, { note: 1, dur: 0.4 },
-    { note: 0, dur: 1.0 }, { note: 2, dur: 0.5 }, { note: 4, dur: 0.5 },
-    { note: 5, dur: 1.2 }, { note: 4, dur: 0.5 }, { note: 3, dur: 0.8 },
-    { note: 2, dur: 0.6 }, { note: 0, dur: 1.4 }
+// Melodía completa del estribillo de "Flores Amarillas" (Floricienta)
+const FLORES_AMARILLAS = [
+    // "Él la es-ta-ba es-pe-ran-do" (G)
+    { f: NOTES.B4, bass: NOTES.G3, dur: 0.32, wait: 0.34 },
+    { f: NOTES.B4, dur: 0.22, wait: 0.24 },
+    { f: NOTES.B4, dur: 0.22, wait: 0.24 },
+    { f: NOTES.B4, dur: 0.22, wait: 0.24 },
+    { f: NOTES.C5, dur: 0.26, wait: 0.28 },
+    { f: NOTES.B4, bass: NOTES.D4, dur: 0.45, wait: 0.48 },
+    { f: NOTES.A4, dur: 0.24, wait: 0.26 },
+    { f: NOTES.G4, dur: 0.36, wait: 0.40 },
+
+    // "con u-na flor a-ma-ri-lla" (Em)
+    { f: NOTES.G4, bass: NOTES.E3, dur: 0.26, wait: 0.28 },
+    { f: NOTES.A4, dur: 0.26, wait: 0.28 },
+    { f: NOTES.B4, dur: 0.36, wait: 0.38 },
+    { f: NOTES.G4, bass: NOTES.B3, dur: 0.55, wait: 0.58 },
+    { f: NOTES.Fs4, dur: 0.24, wait: 0.26 },
+    { f: NOTES.G4, dur: 0.24, wait: 0.26 },
+    { f: NOTES.E4, dur: 0.45, wait: 0.48 },
+    { f: NOTES.D4, dur: 0.45, wait: 0.50 },
+
+    // "El-la lo es-ta-ba so-ñan-do" (C)
+    { f: NOTES.A4, bass: NOTES.C3, dur: 0.32, wait: 0.34 },
+    { f: NOTES.A4, dur: 0.22, wait: 0.24 },
+    { f: NOTES.A4, dur: 0.22, wait: 0.24 },
+    { f: NOTES.A4, dur: 0.22, wait: 0.24 },
+    { f: NOTES.B4, dur: 0.26, wait: 0.28 },
+    { f: NOTES.A4, bass: NOTES.E4, dur: 0.45, wait: 0.48 },
+    { f: NOTES.G4, dur: 0.24, wait: 0.26 },
+    { f: NOTES.Fs4, dur: 0.36, wait: 0.38 },
+    { f: NOTES.E4, dur: 0.36, wait: 0.40 },
+
+    // "con la luz en su pu-pi-la" (D)
+    { f: NOTES.Fs4, bass: NOTES.D3, dur: 0.26, wait: 0.28 },
+    { f: NOTES.G4, dur: 0.26, wait: 0.28 },
+    { f: NOTES.A4, dur: 0.36, wait: 0.38 },
+    { f: NOTES.B4, bass: NOTES.A3, dur: 0.30, wait: 0.32 },
+    { f: NOTES.A4, dur: 0.30, wait: 0.32 },
+    { f: NOTES.G4, dur: 0.30, wait: 0.32 },
+    { f: NOTES.Fs4, dur: 0.36, wait: 0.38 },
+    { f: NOTES.G4, bass: NOTES.G3, dur: 0.65, wait: 0.72 },
+
+    // "Y el a-ma-ri-llo del sol" (G)
+    { f: NOTES.B4, bass: NOTES.G3, dur: 0.32, wait: 0.34 },
+    { f: NOTES.B4, dur: 0.22, wait: 0.24 },
+    { f: NOTES.B4, dur: 0.22, wait: 0.24 },
+    { f: NOTES.B4, dur: 0.22, wait: 0.24 },
+    { f: NOTES.C5, dur: 0.26, wait: 0.28 },
+    { f: NOTES.B4, bass: NOTES.D4, dur: 0.45, wait: 0.48 },
+    { f: NOTES.A4, dur: 0.24, wait: 0.26 },
+    { f: NOTES.G4, dur: 0.36, wait: 0.40 },
+
+    // "i-lu-mi-na-ba la es-qui-na" (Em)
+    { f: NOTES.G4, bass: NOTES.E3, dur: 0.26, wait: 0.28 },
+    { f: NOTES.A4, dur: 0.26, wait: 0.28 },
+    { f: NOTES.B4, dur: 0.36, wait: 0.38 },
+    { f: NOTES.G4, bass: NOTES.B3, dur: 0.55, wait: 0.58 },
+    { f: NOTES.Fs4, dur: 0.24, wait: 0.26 },
+    { f: NOTES.G4, dur: 0.24, wait: 0.26 },
+    { f: NOTES.E4, dur: 0.45, wait: 0.48 },
+    { f: NOTES.D4, dur: 0.45, wait: 0.50 },
+
+    // "Lo sen-tí-a tan cer-ca-no" (C)
+    { f: NOTES.A4, bass: NOTES.C3, dur: 0.32, wait: 0.34 },
+    { f: NOTES.A4, dur: 0.22, wait: 0.24 },
+    { f: NOTES.A4, dur: 0.22, wait: 0.24 },
+    { f: NOTES.A4, dur: 0.22, wait: 0.24 },
+    { f: NOTES.B4, dur: 0.26, wait: 0.28 },
+    { f: NOTES.A4, bass: NOTES.E4, dur: 0.45, wait: 0.48 },
+    { f: NOTES.G4, dur: 0.24, wait: 0.26 },
+    { f: NOTES.Fs4, dur: 0.36, wait: 0.38 },
+    { f: NOTES.E4, dur: 0.36, wait: 0.40 },
+
+    // "lo sen-tí-a des-de siem-pre..." (D)
+    { f: NOTES.Fs4, bass: NOTES.D3, dur: 0.26, wait: 0.28 },
+    { f: NOTES.G4, dur: 0.26, wait: 0.28 },
+    { f: NOTES.A4, dur: 0.36, wait: 0.38 },
+    { f: NOTES.B4, bass: NOTES.A3, dur: 0.30, wait: 0.32 },
+    { f: NOTES.A4, dur: 0.30, wait: 0.32 },
+    { f: NOTES.G4, dur: 0.30, wait: 0.32 },
+    { f: NOTES.Fs4, dur: 0.36, wait: 0.38 },
+    { f: NOTES.G4, bass: NOTES.G3, dur: 0.65, wait: 0.72 },
+
+    // "Y no te-mí-a per-der" (C)
+    { f: NOTES.E5, bass: NOTES.C3, dur: 0.34, wait: 0.36 },
+    { f: NOTES.E5, dur: 0.28, wait: 0.30 },
+    { f: NOTES.E5, dur: 0.28, wait: 0.30 },
+    { f: NOTES.E5, dur: 0.28, wait: 0.30 },
+    { f: NOTES.D5, dur: 0.34, wait: 0.36 },
+    { f: NOTES.C5, dur: 0.34, wait: 0.36 },
+
+    // "ja-más su a-mor..." (G/B)
+    { f: NOTES.D5, bass: NOTES.B3, dur: 0.48, wait: 0.50 },
+    { f: NOTES.D5, dur: 0.28, wait: 0.30 },
+    { f: NOTES.D5, dur: 0.28, wait: 0.30 },
+    { f: NOTES.C5, dur: 0.28, wait: 0.30 },
+    { f: NOTES.B4, bass: NOTES.G3, dur: 0.65, wait: 0.70 },
+
+    // "Él la es-ta-ba es-pe-ran-do" (Am)
+    { f: NOTES.C5, bass: NOTES.A3, dur: 0.34, wait: 0.36 },
+    { f: NOTES.C5, dur: 0.28, wait: 0.30 },
+    { f: NOTES.C5, dur: 0.28, wait: 0.30 },
+    { f: NOTES.B4, dur: 0.28, wait: 0.30 },
+    { f: NOTES.A4, dur: 0.34, wait: 0.36 },
+    { f: NOTES.B4, dur: 0.34, wait: 0.36 },
+
+    // "con u-na flor a-ma-ri-lla! ✨" (D7 -> G)
+    { f: NOTES.C5, bass: NOTES.D3, dur: 0.34, wait: 0.36 },
+    { f: NOTES.B4, dur: 0.28, wait: 0.30 },
+    { f: NOTES.A4, dur: 0.28, wait: 0.30 },
+    { f: NOTES.B4, dur: 0.28, wait: 0.30 },
+    { f: NOTES.A4, dur: 0.34, wait: 0.36 },
+    { f: NOTES.G4, bass: NOTES.G3, dur: 1.10, wait: 1.50 }
 ];
 
 function initMusic() {
@@ -193,9 +290,9 @@ function initMusic() {
         if (!isPlaying) {
             startMelody();
             isPlaying = true;
-            musicBtn.innerHTML = '<span>🔊</span> Pausar Música';
+            musicBtn.innerHTML = '<span>🔊</span> Flores Amarillas';
             musicBtn.classList.add('active');
-            showToast('🎵 Música de primavera activada');
+            showToast('🌻 "Flores Amarillas" de Floricienta sonando 🎵');
         } else {
             stopMelody();
             isPlaying = false;
@@ -205,27 +302,45 @@ function initMusic() {
     });
 }
 
-function playTone(freq, duration) {
-    if (!audioCtx || audioCtx.state !== 'running') return;
+function playTone(freq, duration, isBass = false) {
+    if (!audioCtx || audioCtx.state !== 'running' || !freq) return;
     
     try {
+        const now = audioCtx.currentTime;
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         
-        // Forma de onda suave (sine / triangle) tipo celesta / campana
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        osc.type = isBass ? 'sine' : 'triangle';
+        osc.frequency.setValueAtTime(freq, now);
 
-        // Envolvente de volumen (ataque rápido y decaimiento suave)
-        gain.gain.setValueAtTime(0, audioCtx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 0.04);
-        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        if (isBass) {
+            gain.gain.setValueAtTime(0, now);
+            gain.gain.linearRampToValueAtTime(0.08, now + 0.05);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + duration + 0.3);
+        } else {
+            gain.gain.setValueAtTime(0, now);
+            gain.gain.linearRampToValueAtTime(0.14, now + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + duration + 0.15);
+
+            // Brillo tipo celesta/cajita de música
+            const overtone = audioCtx.createOscillator();
+            const overGain = audioCtx.createGain();
+            overtone.type = 'sine';
+            overtone.frequency.setValueAtTime(freq * 2, now);
+            overGain.gain.setValueAtTime(0, now);
+            overGain.gain.linearRampToValueAtTime(0.04, now + 0.015);
+            overGain.gain.exponentialRampToValueAtTime(0.0001, now + duration * 0.6);
+            overtone.connect(overGain);
+            overGain.connect(audioCtx.destination);
+            overtone.start(now);
+            overtone.stop(now + duration);
+        }
 
         osc.connect(gain);
         gain.connect(audioCtx.destination);
 
-        osc.start();
-        osc.stop(audioCtx.currentTime + duration);
+        osc.start(now);
+        osc.stop(now + duration + 0.3);
     } catch (e) {
         console.warn('Audio note error:', e);
     }
@@ -236,22 +351,25 @@ function startMelody() {
     
     function tick() {
         if (!isPlaying) return;
-        const current = MELODY_SEQUENCE[step % MELODY_SEQUENCE.length];
-        const freq = SPRING_NOTES[current.note];
-        playTone(freq, current.dur);
+        const current = FLORES_AMARILLAS[step % FLORES_AMARILLAS.length];
+
+        playTone(current.f, current.dur, false);
+        if (current.bass) {
+            playTone(current.bass, current.dur * 1.2, true);
+        }
 
         step++;
-        const nextTime = (current.dur + 0.2) * 1000;
-        musicInterval = setTimeout(tick, nextTime);
+        const nextTime = current.wait * 1000;
+        musicTimeout = setTimeout(tick, nextTime);
     }
 
     tick();
 }
 
 function stopMelody() {
-    if (musicInterval) {
-        clearTimeout(musicInterval);
-        musicInterval = null;
+    if (musicTimeout) {
+        clearTimeout(musicTimeout);
+        musicTimeout = null;
     }
 }
 
@@ -263,7 +381,6 @@ function initModal() {
     const modal = document.getElementById('modal-personalizar');
     const closeBtn = document.getElementById('btn-close-modal');
     const copyBtn = document.getElementById('btn-copy-link');
-    const whatsappBtn = document.getElementById('btn-whatsapp');
     
     const inputPara = document.getElementById('input-para');
     const inputDe = document.getElementById('input-de');
@@ -292,9 +409,8 @@ function initModal() {
 
     function buildUrl() {
         const baseUrl = window.location.origin + window.location.pathname
-            .replace('index.html', '')
-            .replace('personal.html', '')
-            .replace('especial.html', '') + 'especial.html';
+            .replace('personal.html', 'index.html')
+            .replace('especial.html', 'index.html');
         const params = new URLSearchParams();
 
         if (inputPara && inputPara.value.trim()) {
@@ -323,15 +439,6 @@ function initModal() {
         });
     }
 
-    if (whatsappBtn) {
-        whatsappBtn.addEventListener('click', () => {
-            const url = buildUrl();
-            const paraText = inputPara && inputPara.value.trim() ? ` para ti, ${inputPara.value.trim()}` : '';
-            const shareText = encodeURIComponent(`🌻 ¡Te envío esta flor amarilla especial${paraText}! Mírala aquí: ${url}`);
-            window.open(`https://api.whatsapp.com/send?text=${shareText}`, '_blank');
-            modal.classList.remove('visible');
-        });
-    }
 }
 
 /* ===============================================
