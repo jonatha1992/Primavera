@@ -5,7 +5,9 @@
       "Bash(python:*)",
       "mcp__playwright__browser_navigate",
       "mcp__playwright__browser_take_screenshot",
-      "mcp__playwright__browser_close"
+      "mcp__playwright__browser_close",
+      "PowerShell(node \"C:\\\\Users\\\\ciber\\\\.claude\\\\skills\\\\impeccable\\\\scripts\\\\context.mjs\")",
+      "PowerShell(npx --yes http-server \"C:\\\\Users\\\\ciber\\\\Desktop\\\\repo\\\\Primavera\" -p 4173 -c-1)"
     ],
     "deny": [],
     "ask": []
