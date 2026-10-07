@@ -15,17 +15,41 @@ document.addEventListener('DOMContentLoaded', () => {
    TRANSICIONES SUAVES ENTRE PÁGINAS
    =============================================== */
 function initPageTransitions() {
+    window.addEventListener('pageshow', () => {
+        document.body.classList.remove('page-transitioning');
+    });
+
     document.querySelectorAll('a[href]').forEach(link => {
-        const href = link.getAttribute('href');
-        if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto') || href.startsWith('javascript')) {
+        const rawHref = link.getAttribute('href');
+        if (!rawHref || rawHref.startsWith('#') || rawHref.startsWith('mailto:') || rawHref.startsWith('javascript:')) {
+            return;
+        }
+
+        let targetUrl;
+        try {
+            targetUrl = new URL(rawHref, window.location.href);
+        } catch {
+            return;
+        }
+
+        if (targetUrl.origin !== window.location.origin) {
             return;
         }
 
         link.addEventListener('click', (e) => {
+            if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey || e.button !== 0 || link.target === '_blank') {
+                return;
+            }
+
             e.preventDefault();
+
+            if (window.location.search && !targetUrl.search) {
+                targetUrl.search = window.location.search;
+            }
+
             document.body.classList.add('page-transitioning');
             setTimeout(() => {
-                window.location.href = href;
+                window.location.href = targetUrl.toString();
             }, 260);
         });
     });
