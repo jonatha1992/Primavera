@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Primavera (HTML)",
+      "type": "msedge",
+      "request": "launch",
+      "file": "${workspaceFolder}/index.html",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "Especial (HTML)",
+      "type": "msedge",
+      "request": "launch",
+      "file": "${workspaceFolder}/especial.html",
+      "webRoot": "${workspaceFolder}"
+    }
+  ]
+}
