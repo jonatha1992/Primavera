@@ -1,3 +1,14 @@
 {
-    "claudeCodeChat.permissions.yoloMode": false
+    "claudeCodeChat.permissions.yoloMode": false,
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#d39117",
+        "activityBar.foreground": "#ffffff",
+        "statusBar.background": "#d39117",
+        "statusBar.foreground": "#ffffff",
+        "titleBar.background": "#d39117",
+        "titleBar.foreground": "#ffffff",
+        "activityBar.inactiveForeground": "#ffffffaa",
+        "titleBar.inactiveBackground": "#d3911799"
+    },
+    "peacock.color": "#d39117"
 }
